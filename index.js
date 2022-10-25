@@ -1,3 +1,5 @@
+import SpriteUtil from "./js/spriteUtil.js";
+
 ///////////////////////////////////////////////////////////
 (function (window) {
   window.addEventListener("load", function () {
@@ -14,11 +16,12 @@
     resources = loader.resources,
     Sprite = PIXI.Sprite,
     b = new Bump(PIXI);
+    
 
   const CANVAS_WIDTH = 600;
   const CANVAS_HEIGHT = 500;
 
-  const app = new PIXI.Application({
+  const app = new Application({
     width: CANVAS_WIDTH, // default: 800
     height: CANVAS_HEIGHT, // default: 600
     antialias: true, // default: false
@@ -40,10 +43,10 @@
       update: update.bind(this)
     });
     --*/
- 
+
   let renderer = app.renderer;
   let stage = app.stage;
-
+ 
   var smoothie = new Smoothie({
     engine: "pixi",
     renderer: renderer,
@@ -63,10 +66,24 @@
     sprite.anchor.set(0.5);
     sprite.x = Math.random() * CANVAS_WIDTH;
     sprite.y = (Math.random() * CANVAS_HEIGHT) / 2;
-    sprite.rotation = Math.PI;
-
+    sprite.rotation = Math.PI;;
 
     stage.addChild(sprite);
+
+    const spriteUtil = new SpriteUtil(PIXI);
+
+    let sp = spriteUtil.sprite(textures['meteor_large.png'], 250,150);
+    stage.addChild(sp);
+    
+    let rect = spriteUtil.rectangle(25, 25);
+
+    stage.addChild(rect);
+
+    let c = spriteUtil.circle(CANVAS_WIDTH/2, 45, 30, '0xffffff', '0xFFBD01', 3);
+    stage.addChild(c);
+
+    
+
 
     smoothie.start();
   }
@@ -74,10 +91,8 @@
   function update() {
     sprite.y += 1;
     //
-    if(b.hit({x:sprite.x, y: CANVAS_HEIGHT}, sprite)){
-        sprite.y = CANVAS_HEIGHT -16;
-    }  
-    
+    if (b.hit({ x: sprite.x, y: CANVAS_HEIGHT }, sprite)) {
+      sprite.y = CANVAS_HEIGHT - 16;
+    }
   }
-
 })(window);
